@@ -56,11 +56,12 @@ public class MainActivity extends AppCompatActivity  implements BlankFragmentMai
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // читаем данные из настроек
         prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
         score = prefs.getInt("score",0);
         power_click = prefs.getInt("power_click",1);;
-        cabbage_flag = prefs.getBoolean("carrot",false);
-        carrot_flag = prefs.getBoolean("cabbage",false);
+        carrot_flag = prefs.getBoolean("carrot",false);
+        cabbage_flag = prefs.getBoolean("cabbage",false);
         position = 1;
         horizontal = false;
     }
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity  implements BlankFragmentMai
     }
 
 
-    // сохранение данных при уничтожении мейн активити
+    // сохранение данных в настройках
     @Override
     public void clickSave(){
         SharedPreferences.Editor editor = prefs.edit();
