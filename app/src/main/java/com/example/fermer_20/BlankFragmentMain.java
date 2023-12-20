@@ -1,5 +1,7 @@
 package com.example.fermer_20;
 
+import static com.example.fermer_20.R.id.but_save;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -39,6 +41,7 @@ public class BlankFragmentMain extends Fragment {
         void clickUpgrade();
         void clickNextImg();
         void clickBackImg();
+        void clickSave();
         void initMain();
     }
     private OnFragmentSendDataMainListener fragmentSendDataMainListener;
@@ -108,6 +111,13 @@ public class BlankFragmentMain extends Fragment {
             @Override
             public void onClick(View v) {
                 fragmentSendDataMainListener.clickUpgrade();
+            }
+        });
+        Button but_save = view.findViewById(R.id.but_save);
+        but_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentSendDataMainListener.clickSave();
             }
         });
         // Inflate the layout for this fragment

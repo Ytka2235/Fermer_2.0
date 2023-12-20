@@ -8,9 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity  implements BlankFragmentMain.OnFragmentSendDataMainListener{
     public Integer score;
@@ -19,6 +29,7 @@ public class MainActivity extends AppCompatActivity  implements BlankFragmentMai
     public Boolean cabbage_flag;
     public Integer position;
     public boolean horizontal;
+
 
     ActivityResultLauncher<Intent> mStartForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -38,15 +49,19 @@ public class MainActivity extends AppCompatActivity  implements BlankFragmentMai
             });
 
     // определение начальных значений
+
+    public SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        score = 0;
-        power_click = 1;
+        prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        score = prefs.getInt("score",0);
+        power_click = prefs.getInt("power_click",1);;
+        cabbage_flag = prefs.getBoolean("carrot",false);
+        carrot_flag = prefs.getBoolean("cabbage",false);
         position = 1;
-        cabbage_flag = false;
-        carrot_flag = false;
         horizontal = false;
     }
     // обработка нажатия на изображение
@@ -111,6 +126,18 @@ public class MainActivity extends AppCompatActivity  implements BlankFragmentMai
     {
         BlankFragmentMain fragmentMain = (BlankFragmentMain) getSupportFragmentManager().findFragmentById(R.id.fragment_main);
         fragmentMain.init(score,power_click,position,horizontal);
+    }
+
+
+    // сохранение данных при уничтожении мейн активити
+    @Override
+    public void clickSave(){
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("score", score).apply();
+        editor.putInt("power_click", power_click).apply();
+        editor.putBoolean("carrot",carrot_flag).apply();
+        editor.putBoolean("cabbage", cabbage_flag).apply();
+
     }
 
 }
